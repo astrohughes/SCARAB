@@ -20,7 +20,6 @@
 //! let tle = Tle::parse(line1, line2).unwrap();
 //! assert_eq!(tle.norad_id, 25544);
 //! ```
-
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use crate::constants::*;

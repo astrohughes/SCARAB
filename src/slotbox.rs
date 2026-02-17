@@ -2,7 +2,6 @@
 //!
 //! Defines keep-in boxes in ROE space and detects violations.
 //! When a satellite drifts outside its box, a maneuver is triggered.
-
 use serde::{Deserialize, Serialize};
 use crate::elements::{MeanElements, RelativeOrbitalElements};
 

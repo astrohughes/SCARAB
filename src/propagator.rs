@@ -10,7 +10,6 @@
 //! Force models implement the `ForceModel` trait. They're composed into a
 //! `ForceConfig` and passed to the integrator. This makes it easy to add
 //! new perturbations (SRP, higher-order gravity, third body) later.
-
 use crate::constants::*;
 use crate::elements::MeanElements;
 use serde::{Deserialize, Serialize};

@@ -1,5 +1,4 @@
 //! Python bindings via PyO3 for SCARAB.
-
 use pyo3::prelude::*;
 use pyo3::types::PyDict;
 
@@ -10,8 +9,8 @@ use crate::propagator::{StateVector, ForceConfig, NumericalPropagator, Integrato
 use crate::slotbox::{SlotBox, SlotStatus};
 use crate::maneuver;
 
-// ── MeanElements ──
 
+// MeanElements
 #[pyclass(name = "MeanElements")]
 #[derive(Clone)]
 pub struct PyMeanElements {
@@ -68,8 +67,7 @@ impl PyMeanElements {
     }
 }
 
-// ── ROE ──
-
+// ROE
 #[pyclass(name = "ROE")]
 #[derive(Clone)]
 pub struct PyROE {
@@ -106,8 +104,7 @@ impl PyROE {
     }
 }
 
-// ── SlotBox ──
-
+// SlotBox
 #[pyclass(name = "SlotBox")]
 #[derive(Clone)]
 pub struct PySlotBox {
@@ -140,8 +137,7 @@ impl PySlotBox {
     }
 }
 
-// ── TLE ──
-
+// TLE
 #[pyclass(name = "TLE")]
 #[derive(Clone)]
 pub struct PyTle {
@@ -213,8 +209,7 @@ impl PyTle {
     }
 }
 
-// ── Numerical Propagator ──
-
+// Numerical Propagator
 #[pyclass(name = "Propagator")]
 pub struct PyPropagator {
     inner: NumericalPropagator,
@@ -280,8 +275,7 @@ impl PyPropagator {
     }
 }
 
-// ── Free functions ──
-
+// Free functions
 #[pyfunction]
 fn annual_drag_dv(a: f64, bc: f64, rho: f64) -> f64 {
     maneuver::annual_drag_dv(a, bc, rho)
@@ -299,8 +293,7 @@ fn correct_inclination(chief: &PyMeanElements, roe: &PyROE) -> (f64, f64, f64) {
     (m.dv_r * 1000.0, m.dv_t * 1000.0, m.dv_n * 1000.0)
 }
 
-// ── Module registration ──
-
+// Module registration
 pub fn register(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyMeanElements>()?;
     m.add_class::<PyROE>()?;

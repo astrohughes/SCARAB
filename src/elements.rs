@@ -3,7 +3,6 @@
 //! Implements classical (Keplerian) orbital elements, mean elements
 //! with J2 secular rates, and quasi-nonsingular relative orbital elements
 //! (ROEs) following D'Amico's formulation.
-
 use serde::{Deserialize, Serialize};
 use crate::constants::*;
 

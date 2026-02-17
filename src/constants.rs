@@ -1,4 +1,7 @@
 //! Physical and astrodynamic constants.
+//! TODO: Confirm and add more as needed 
+//  (e.g., atmospheric model parameters, solar radiation pressure constants, etc.)
+
 
 /// Earth gravitational parameter (km³/s²) — WGS84
 pub const MU_EARTH: f64 = 398600.4418;

@@ -6,7 +6,6 @@
 //! Provides orbital element handling, TLE parsing, numerical propagation,
 //! relative orbital element computation, slot-keeping box logic,
 //! and maintenance maneuver planning.
-
 pub mod constants;
 pub mod elements;
 pub mod tle;
