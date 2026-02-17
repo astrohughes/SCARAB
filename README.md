@@ -4,7 +4,7 @@
 
 A toolkit for satellite constellation station-keeping and maintenance — Rust core with Python bindings.
 
-**Author:** Kyle Hughes ([@](https://github.com/huqhesy)astrohughes) — kyle.evan.hughes@gmail.com
+**Authors:** Kyle Hughes ([@astrohughes](https://github.com/astrohughes/SPECTRE)) — kyle.evan.hughes@gmail.com
 
 ---
 
