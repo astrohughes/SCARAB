@@ -4,6 +4,8 @@
 
 A toolkit for satellite constellation station-keeping and maintenance — Rust core with Python bindings.
 
+**Author:** Kyle Hughes ([@](https://github.com/huqhesy)astrohughes) — kyle.evan.hughes@gmail.com
+
 ---
 
 ## What this does
@@ -121,8 +123,8 @@ scarab/
 
 ## Roadmap
 
-- [x] **Phase 1:** Mean elements, ROEs, slot boxes, impulsive maneuvers
-- [x] **Phase 2:** TLE parser, numerical propagation with J2 + drag
+- [X] **Phase 1:** Mean elements, ROEs, slot boxes, impulsive maneuvers
+- [X] **Phase 2:** TLE parser, numerical propagation with J2 + drag
 - [ ] **Phase 3:** Low-thrust maneuver planning (electric propulsion)
 - [ ] **Phase 4:** RAAN phasing / constellation build-up planner
 - [ ] **Phase 5:** CCSDS CDM/OEM import/export
