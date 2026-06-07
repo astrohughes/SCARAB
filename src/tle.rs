@@ -20,6 +20,11 @@
 //! let tle = Tle::parse(line1, line2).unwrap();
 //! assert_eq!(tle.norad_id, 25544);
 //! ```
+//! 
+//! TODO:
+//! * Why overcomplicated days_since_j2000_jan1 - can be library call
+//! * Confirmed this is a consistent definition for sun synchronous orbits 
+//! i.e is it always (RAAN drift ≈ +0.9856°/day.
 use serde::{Deserialize, Serialize};
 use thiserror::Error;
 use crate::constants::*;

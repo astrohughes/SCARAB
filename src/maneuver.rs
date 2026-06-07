@@ -4,6 +4,11 @@
 //! - In-plane (along-track) for SMA correction / drift control
 //! - Cross-track for inclination correction
 //! - Combined RAAN phasing via differential drag or altitude offset
+//! 
+//! TODOs:
+//! * Cite book sources for equations
+//! * Improve annual_drag_dv (a lot); then monthly, weekly, etc.
+//! 
 use serde::{Deserialize, Serialize};
 use crate::constants::*;
 use crate::elements::{MeanElements, RelativeOrbitalElements};
@@ -125,7 +130,7 @@ pub fn plan_sk_cycle(
     maneuvers
 }
 
-#[cfg(test)]
+#[cfg(test)]1e
 mod tests {
     use super::*;
     use approx::assert_relative_eq;

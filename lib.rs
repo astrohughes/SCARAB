@@ -1,4 +1,4 @@
-//! # astroframes-core
+//! # Based on astroframes-core
 //!
 //! Fast, correct aerospace reference frames and time systems.
 //!

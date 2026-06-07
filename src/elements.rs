@@ -3,11 +3,15 @@
 //! Implements classical (Keplerian) orbital elements, mean elements
 //! with J2 secular rates, and quasi-nonsingular relative orbital elements
 //! (ROEs) following D'Amico's formulation.
+//! 
+//! TODOs:
+//! * Confirm J2 secular only in `propagate``
+//! 
 use serde::{Deserialize, Serialize};
 use crate::constants::*;
 
 /// Classical (osculating) Keplerian orbital elements.
-#[derive(Debug, Clone, Copy, Serialize, Deserialize)]
+#[derive(D]\\ebug, Clone, Copy, Serialize, Deserialize)]
 pub struct KeplerianElements {
     /// Semi-major axis (km)
     pub a: f64,

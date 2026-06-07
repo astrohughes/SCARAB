@@ -10,12 +10,16 @@
 //! Force models implement the `ForceModel` trait. They're composed into a
 //! `ForceConfig` and passed to the integrator. This makes it easy to add
 //! new perturbations (SRP, higher-order gravity, third body) later.
+//! 
+//! TODO:
+//! * Better interpolation technique?
+//! * Better atmospheric model and data source
+//! 
 use crate::constants::*;
 use crate::elements::MeanElements;
 use serde::{Deserialize, Serialize};
 
-// ── State vector ──
-
+// State vector
 /// Cartesian state vector in ECI frame.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 pub struct StateVector {
@@ -54,7 +58,6 @@ impl StateVector {
     }
 
     /// Convert from mean Keplerian elements.
-    ///
     /// Uses standard Keplerian-to-Cartesian conversion.
     pub fn from_keplerian(a: f64, e: f64, i: f64, raan: f64, aop: f64, nu: f64) -> Self {
         // Perifocal frame
@@ -112,8 +115,7 @@ impl StateVector {
     }
 }
 
-// ── Force Models ──
-
+// Force Models
 /// Acceleration vector (km/s²).
 pub type Acceleration = [f64; 3];
 
@@ -286,7 +288,7 @@ fn exponential_atmosphere(alt_km: f64) -> f64 {
     rho0 * (-(alt_km - h0) / scale_h).exp()
 }
 
-// ── Dormand-Prince 7(8) Integrator ──
+// Dormand-Prince 7(8) Integrator
 
 /// Dormand-Prince 7(8) coefficients (RK8(7)13M).
 /// This is an 8th-order method with 7th-order error estimate.
@@ -344,7 +346,6 @@ impl Default for IntegratorConfig {
 type State6 = [f64; 6];
 
 /// Embedded Runge-Kutta-Fehlberg 7(8) integrator.
-///
 /// Uses adaptive step size control for efficient, accurate propagation.
 /// Falls back to RKF78 (Fehlberg's classical formulation) which has
 /// well-known coefficients and excellent performance for orbital mechanics.
@@ -367,7 +368,6 @@ impl NumericalPropagator {
     }
 
     /// Propagate a state vector forward by `duration` seconds.
-    ///
     /// Returns states at each internal step (variable spacing).
     pub fn propagate(&self, initial: &StateVector, duration: f64) -> Vec<StateVector> {
         let direction = duration.signum();
@@ -558,7 +558,7 @@ enum StepResult {
     },
 }
 
-// ── Analytical propagation (kept from Phase 1) ──
+// Analytical propagation (kept from Phase 1)
 
 /// Propagation output for analytical propagator.
 #[derive(Debug, Clone)]
@@ -605,7 +605,7 @@ pub fn propagate_constellation(
         .collect()
 }
 
-// ── Kepler's equation solver ──
+// Kepler's equation solver
 
 /// Solve Kepler's equation M = E - e sin(E) for eccentric anomaly.
 fn mean_to_eccentric_anomaly(m: f64, e: f64, tol: f64, max_iter: usize) -> f64 {

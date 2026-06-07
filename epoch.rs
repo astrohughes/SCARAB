@@ -1,15 +1,4 @@
-use serde::{Deserialize, Serialize};
-
-use super::leapseconds::tai_utc_offset;
-use super::timescale::TimeScale;
-use super::{GPS_TAI_OFFSET_NS, TT_TAI_OFFSET_NS};
-
-const NANOS_PER_SEC: i128 = 1_000_000_000;
-const SECS_PER_DAY: i128 = 86_400;
-const NANOS_PER_DAY: i128 = SECS_PER_DAY * NANOS_PER_SEC;
-
 /// An instant in time, internally stored as TAI nanoseconds since J2000.
-///
 /// J2000 epoch = 2000-01-01T12:00:00.000 TAI
 ///
 /// # Examples
@@ -20,6 +9,25 @@ const NANOS_PER_DAY: i128 = SECS_PER_DAY * NANOS_PER_SEC;
 /// let tai = t.to_tai_seconds();
 /// let gps = t.to_timescale(TimeScale::GPS);
 /// ```
+///
+/// TODOs: 
+/// * proper inverse leap-second lookup for continuous conversion
+/// * implement full Fairhead-Bretagnon series
+/// * EOP provider
+/// * calendar date formatting
+/// * support for prioritized modes (e.g. GPS-denied)
+/// * utc_calendar_to_j2000_days is kinda stupid
+///
+use serde::{Deserialize, Serialize};
+
+use super::leapseconds::tai_utc_offset;
+use super::timescale::TimeScale;
+use super::{GPS_TAI_OFFSET_NS, TT_TAI_OFFSET_NS};
+
+const NANOS_PER_SEC: i128 = 1_000_000_000;
+const SECS_PER_DAY: i128 = 86_400;
+const NANOS_PER_DAY: i128 = SECS_PER_DAY * NANOS_PER_SEC;
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Serialize, Deserialize)]
 pub struct Epoch {
     /// TAI nanoseconds since J2000 (2000-01-01T12:00:00 TAI)
@@ -27,8 +35,6 @@ pub struct Epoch {
 }
 
 impl Epoch {
-    // ── Constructors ──────────────────────────────────────────────
-
     /// Create an Epoch from raw TAI nanoseconds since J2000.
     pub const fn from_tai_ns(tai_ns: i128) -> Self {
         Self { tai_ns }
@@ -42,7 +48,6 @@ impl Epoch {
     }
 
     /// Create an Epoch from a UTC calendar date and time.
-    ///
     /// Handles leap second offset lookup automatically.
     pub fn from_utc(year: i32, month: u8, day: u8, hour: u8, min: u8, sec: f64) -> Self {
         let days_since_j2000 = utc_calendar_to_j2000_days(year, month, day);
@@ -73,8 +78,7 @@ impl Epoch {
         Self { tai_ns }
     }
 
-    // ── Accessors ─────────────────────────────────────────────────
-
+    // Accessors
     /// Raw TAI nanoseconds since J2000.
     pub const fn as_tai_ns(&self) -> i128 {
         self.tai_ns
@@ -125,8 +129,6 @@ impl Epoch {
         self.to_jd(ts) - 2_400_000.5
     }
 
-    // ── Arithmetic ────────────────────────────────────────────────
-
     /// Duration between two epochs in seconds.
     pub fn duration_since(&self, other: &Epoch) -> f64 {
         (self.tai_ns - other.tai_ns) as f64 / NANOS_PER_SEC as f64
@@ -156,8 +158,7 @@ impl std::ops::Sub for Epoch {
     }
 }
 
-// ── Helper: Gregorian calendar to J2000 days ───────────────────────
-
+// Helper: Gregorian calendar to J2000 days
 /// Convert a UTC calendar date to days since J2000 (2000-01-01).
 /// Uses the standard algorithm valid for dates after 1582-10-15.
 fn utc_calendar_to_j2000_days(year: i32, month: u8, day: u8) -> i128 {
